@@ -22,7 +22,6 @@ import com.ververica.flink.table.gateway.rest.message.StatementExecuteResponseBo
 import com.ververica.flink.table.jdbc.rest.RestUtils;
 import com.ververica.flink.table.jdbc.rest.SessionClient;
 import com.ververica.flink.table.jdbc.resulthandler.ResultHandlerFactory;
-
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.types.Either;
 import org.apache.flink.util.Preconditions;
@@ -38,6 +37,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 /**
  * Flink JDBC statement.
@@ -369,7 +369,7 @@ public class FlinkStatement implements Statement {
 				ResultSet rs = (ResultSet) ret;
 				if (rs.next()) {
 					try {
-						return rs.getLong(1);
+						return "OK".equals(rs.getString(1)) ? 1 : 0;
 					} catch (SQLException e) {
 						throw new SQLException("Current result is not an update count.");
 					}
@@ -486,9 +486,11 @@ public class FlinkStatement implements Statement {
 		private ReadWriteLock lock;
 
 		AtomicResultSetStatements(String stmt) {
-			this.statements = stmt.split(";");
+			this.statements = Arrays.asList(stmt.split(";"))
+					.stream()
+					.filter(str -> null != str && str.replaceAll("\r|\n", "").trim().length() > 0)
+					.collect(Collectors.toList()).toArray(new String[0]);
 			this.lastExecutedIdx = -1;
-
 			this.lock = new ReentrantReadWriteLock();
 		}
 

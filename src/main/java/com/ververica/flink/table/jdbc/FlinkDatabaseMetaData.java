@@ -21,25 +21,26 @@ package com.ververica.flink.table.jdbc;
 import com.ververica.flink.table.gateway.rest.message.GetInfoResponseBody;
 import com.ververica.flink.table.gateway.rest.message.StatementExecuteResponseBody;
 import com.ververica.flink.table.gateway.rest.result.ColumnInfo;
-import com.ververica.flink.table.gateway.rest.result.TableSchemaUtil;
+import com.ververica.flink.table.gateway.rest.result.ResultKind;
 import com.ververica.flink.table.jdbc.rest.RestUtils;
 import com.ververica.flink.table.jdbc.rest.SessionClient;
 import com.ververica.flink.table.jdbc.resulthandler.ResultHandlerFactory;
 import com.ververica.flink.table.jdbc.type.FlinkSqlType;
 import com.ververica.flink.table.jdbc.type.FlinkSqlTypes;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.table.api.TableColumn;
 import org.apache.flink.table.api.TableSchema;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.IntType;
 import org.apache.flink.table.types.logical.LogicalType;
 import org.apache.flink.table.types.logical.SmallIntType;
 import org.apache.flink.table.types.logical.VarCharType;
+import org.apache.flink.table.types.logical.utils.LogicalTypeParser;
+import org.apache.flink.table.types.utils.LogicalTypeDataTypeConverter;
 import org.apache.flink.types.Either;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Preconditions;
-
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -709,8 +710,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 		if ("".equals(catalog) || "".equals(schemaPattern)) {
 			// every Flink database belongs to a catalog and a database
-			return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-				new GetTableResultColumnInfos().getColumnInfos(), Collections.emptyList()));
+			com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                    .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                    .columns(new GetTableResultColumnInfos().getColumnInfos())
+                    .data(Collections.emptyList())
+					.build();
+			return FlinkResultSet.of(resultSet);
 		}
 
 		String oldCatalog = connection.getCatalog();
@@ -748,8 +753,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 				matches.add(columnInfos.process(candidate));
 			}
 		}
-		return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-			columnInfos.getColumnInfos(), matches));
+        com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                .columns(columnInfos.getColumnInfos())
+                .data(matches)
+                .build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -779,10 +788,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 			maxCatalogNameLength = Math.max(maxCatalogNameLength, name.length());
 		}
 
-		return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-			Collections.singletonList(
-				ColumnInfo.create(catalogColumn, new VarCharType(true, maxCatalogNameLength))),
-			rows));
+        com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                .columns(Collections.singletonList(ColumnInfo.create(catalogColumn, new VarCharType(true, maxCatalogNameLength))))
+                .data(rows)
+                .build();
+        return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -796,9 +807,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 			maxTypeNameLength = Math.max(maxTypeNameLength, type.length());
 		}
 
-		return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-			Collections.singletonList(ColumnInfo.create(tableTypeColumn, new VarCharType(false, maxTypeNameLength))),
-			rows));
+        com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                .columns(Collections.singletonList(ColumnInfo.create(tableTypeColumn, new VarCharType(false, maxTypeNameLength))))
+                .data(rows)
+                .build();
+        return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -844,8 +858,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 				matches.add(columnInfos.process(candidate));
 			}
 		}
-		return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-			columnInfos.getColumnInfos(), matches));
+        com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                .columns(columnInfos.getColumnInfos())
+                .data(matches)
+                .build();
+        return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -886,12 +904,20 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 					matches.add(columnInfos.process(catalog, schema, table, column.getName(), pkIdx));
 				}
 			}
-			ret = FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-				columnInfos.getColumnInfos(), matches));
+            com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                    .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                    .columns(columnInfos.getColumnInfos())
+                    .data(matches)
+                    .build();
+			ret = FlinkResultSet.of(resultSet);
 		} else {
 			// no primary keys
-			ret = FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-				columnInfos.getColumnInfos(), Collections.emptyList()));
+            com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                    .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                    .columns(columnInfos.getColumnInfos())
+                    .data(Collections.emptyList())
+                    .build();
+            ret = FlinkResultSet.of(resultSet);
 		}
 
 		connection.setCatalog(oldCatalog);
@@ -1087,8 +1113,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 		if ("".equals(catalog)) {
 			// every Flink database belongs to a catalog
-			return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-				new GetSchemaColumnInfos().getColumnInfos(), Collections.emptyList()));
+            com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                    .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                    .columns(new GetSchemaColumnInfos().getColumnInfos())
+                    .data(Collections.emptyList())
+                    .build();
+			return FlinkResultSet.of(resultSet);
 		}
 
 		List<SchemaResultData> candidates = new ArrayList<>();
@@ -1120,8 +1150,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 				matches.add(columnInfos.process(candidate));
 			}
 		}
-		return FlinkResultSet.of(new com.ververica.flink.table.gateway.rest.result.ResultSet(
-			columnInfos.getColumnInfos(), matches));
+        com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+                .resultKind(ResultKind.SUCCESS_WITH_CONTENT)
+                .columns(new GetSchemaColumnInfos().getColumnInfos())
+                .data(matches)
+                .build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -1214,7 +1248,7 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 		connection.setSchema(database);
 		ResultSet result = getImmediateSingleSqlResultSet("SHOW TABLES");
 		while (result.next()) {
-			candidates.add(new TableResultData(catalog, database, result.getString(1), result.getString(2)));
+			candidates.add(new TableResultData(catalog, database, result.getString(1), "TABLE"));
 		}
 	}
 
@@ -1230,16 +1264,29 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 			0,
 			null);
 
-		boolean hasNext = result.next();
-		Preconditions.checkState(
-			hasNext,
-			"DESCRIBE statement must return exactly " +
-				"one serialized table schema json string. This is a bug.");
-		try {
-			return TableSchemaUtil.readTableSchemaFromJson(result.getString(1));
-		} catch (JsonProcessingException e) {
-			throw new SQLException("Failed to parse json to table schema", e);
-		}
+        boolean hasNext = result.next();
+        Preconditions.checkState(
+                hasNext,
+                "DESCRIBE statement must return exactly " +
+                        "one serialized table schema json string. This is a bug.");
+        TableSchema.Builder builder = TableSchema.builder();
+        List<String> primaryKey = new ArrayList<>();
+        do {
+            String name = result.getString("name");
+            String type = result.getString("type");
+            boolean isNull = result.getBoolean("null");
+            if (!isNull) {
+                type = type + " NOT NULL";
+            }
+            DataType dataType = LogicalTypeDataTypeConverter.toDataType(LogicalTypeParser.parse(type));
+            String key = result.getString("key");
+            if (StringUtils.isNotEmpty(key)) {
+                primaryKey.add(name);
+            }
+            builder.field(name, dataType);
+        } while (result.next());
+        builder.primaryKey(primaryKey.toArray(new String[0]));
+        return builder.build();
 	}
 
 	private void appendColumnsInTable(

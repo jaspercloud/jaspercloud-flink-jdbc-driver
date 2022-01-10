@@ -24,13 +24,13 @@ under the License.
     <artifactId>flink-jdbc-driver</artifactId>
     <groupId>com.ververica</groupId>
     <name>flink-jdbc-driver</name>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.12.0</version>
 
     <packaging>jar</packaging>
 
     <properties>
         <flink.version>1.12.0</flink.version>
-        <flink.sql.gateway.version>0.1-SNAPSHOT</flink.sql.gateway.version>
+        <flink.sql.gateway.version>1.12.1</flink.sql.gateway.version>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.15</slf4j.version>
         <scala.binary.version>2.11</scala.binary.version>
@@ -105,6 +105,7 @@ under the License.
     </dependencies>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -205,98 +206,98 @@ under the License.
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.rat</groupId>
-                <artifactId>apache-rat-plugin</artifactId>
-                <version>0.12</version><!--$NO-MVN-MAN-VER$-->
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <excludeSubProjects>false</excludeSubProjects>
-                    <numUnapprovedLicenses>0</numUnapprovedLicenses>
-                    <licenses>
-                        <!-- Enforce this license:
-                            Licensed to the Apache Software Foundation (ASF) under one
-                            or more contributor license agreements.  See the NOTICE file
-                            distributed with this work for additional information
-                            regarding copyright ownership.  The ASF licenses this file
-                            to you under the Apache License, Version 2.0 (the
-                            "License"); you may not use this file except in compliance
-                            with the License.  You may obtain a copy of the License at
-                              http://www.apache.org/licenses/LICENSE-2.0
-                            Unless required by applicable law or agreed to in writing,
-                            software distributed under the License is distributed on an
-                            "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-                            KIND, either express or implied.  See the License for the
-                            specific language governing permissions and limitations
-                            under the License.
-                        -->
-                        <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
-                            <licenseFamilyCategory>AL2 </licenseFamilyCategory>
-                            <licenseFamilyName>Apache License 2.0</licenseFamilyName>
-                            <notes />
-                            <patterns>
-                                <pattern>Licensed to the Apache Software Foundation (ASF) under one</pattern>
-                            </patterns>
-                        </license>
-                    </licenses>
-                    <licenseFamilies>
-                        <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
-                            <familyName>Apache License 2.0</familyName>
-                        </licenseFamily>
-                    </licenseFamilies>
-                    <excludes>
-                        <!-- Additional files like .gitignore etc.-->
-                        <exclude>**/.*/**</exclude>
-                        <exclude>**/*.prefs</exclude>
-                        <exclude>**/*.log</exclude>
-                        <!-- Administrative files in the main trunk. -->
-                        <exclude>**/README.md</exclude>
-                        <exclude>.github/**</exclude>
-                        <!-- Generated content -->
-                        <exclude>**/target/**</exclude>
-                        <!-- IntelliJ IDEA -->
-                        <exclude>**/.idea/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.rat</groupId>-->
+<!--                <artifactId>apache-rat-plugin</artifactId>-->
+<!--                <version>0.12</version>&lt;!&ndash;$NO-MVN-MAN-VER$&ndash;&gt;-->
+<!--                <inherited>false</inherited>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <excludeSubProjects>false</excludeSubProjects>-->
+<!--                    <numUnapprovedLicenses>0</numUnapprovedLicenses>-->
+<!--                    <licenses>-->
+<!--                        &lt;!&ndash; Enforce this license:-->
+<!--                            Licensed to the Apache Software Foundation (ASF) under one-->
+<!--                            or more contributor license agreements.  See the NOTICE file-->
+<!--                            distributed with this work for additional information-->
+<!--                            regarding copyright ownership.  The ASF licenses this file-->
+<!--                            to you under the Apache License, Version 2.0 (the-->
+<!--                            "License"); you may not use this file except in compliance-->
+<!--                            with the License.  You may obtain a copy of the License at-->
+<!--                              http://www.apache.org/licenses/LICENSE-2.0-->
+<!--                            Unless required by applicable law or agreed to in writing,-->
+<!--                            software distributed under the License is distributed on an-->
+<!--                            "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY-->
+<!--                            KIND, either express or implied.  See the License for the-->
+<!--                            specific language governing permissions and limitations-->
+<!--                            under the License.-->
+<!--                        &ndash;&gt;-->
+<!--                        <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">-->
+<!--                            <licenseFamilyCategory>AL2 </licenseFamilyCategory>-->
+<!--                            <licenseFamilyName>Apache License 2.0</licenseFamilyName>-->
+<!--                            <notes />-->
+<!--                            <patterns>-->
+<!--                                <pattern>Licensed to the Apache Software Foundation (ASF) under one</pattern>-->
+<!--                            </patterns>-->
+<!--                        </license>-->
+<!--                    </licenses>-->
+<!--                    <licenseFamilies>-->
+<!--                        <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">-->
+<!--                            <familyName>Apache License 2.0</familyName>-->
+<!--                        </licenseFamily>-->
+<!--                    </licenseFamilies>-->
+<!--                    <excludes>-->
+<!--                        &lt;!&ndash; Additional files like .gitignore etc.&ndash;&gt;-->
+<!--                        <exclude>**/.*/**</exclude>-->
+<!--                        <exclude>**/*.prefs</exclude>-->
+<!--                        <exclude>**/*.log</exclude>-->
+<!--                        &lt;!&ndash; Administrative files in the main trunk. &ndash;&gt;-->
+<!--                        <exclude>**/README.md</exclude>-->
+<!--                        <exclude>.github/**</exclude>-->
+<!--                        &lt;!&ndash; Generated content &ndash;&gt;-->
+<!--                        <exclude>**/target/**</exclude>-->
+<!--                        &lt;!&ndash; IntelliJ IDEA &ndash;&gt;-->
+<!--                        <exclude>**/.idea/**</exclude>-->
+<!--                    </excludes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <!-- Note: match version with docs/flinkDev/ide_setup.md -->
-                        <version>8.14</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <suppressionsLocation>/tools/maven/suppressions.xml</suppressionsLocation>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <configLocation>/tools/maven/checkstyle.xml</configLocation>
-                    <logViolationsToConsole>true</logViolationsToConsole>
-                    <failOnViolation>true</failOnViolation>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                <version>2.17</version>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>com.puppycrawl.tools</groupId>-->
+<!--                        <artifactId>checkstyle</artifactId>-->
+<!--                        &lt;!&ndash; Note: match version with docs/flinkDev/ide_setup.md &ndash;&gt;-->
+<!--                        <version>8.14</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>validate</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <suppressionsLocation>/tools/maven/suppressions.xml</suppressionsLocation>-->
+<!--                    <includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+<!--                    <configLocation>/tools/maven/checkstyle.xml</configLocation>-->
+<!--                    <logViolationsToConsole>true</logViolationsToConsole>-->
+<!--                    <failOnViolation>true</failOnViolation>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
