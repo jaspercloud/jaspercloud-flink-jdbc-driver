@@ -27,7 +27,6 @@ import com.ververica.flink.table.jdbc.rest.SessionClient;
 import com.ververica.flink.table.jdbc.resulthandler.ResultHandlerFactory;
 import com.ververica.flink.table.jdbc.type.FlinkSqlType;
 import com.ververica.flink.table.jdbc.type.FlinkSqlTypes;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.table.api.TableColumn;
 import org.apache.flink.table.api.TableSchema;
@@ -691,12 +690,22 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 	@Override
 	public ResultSet getProcedures(String catalog, String schemaPattern, String procedureNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getProcedures is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getProcedureColumns(String catalog, String schemaPattern, String procedureNamePattern, String columnNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getProcedureColumns is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -868,22 +877,42 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 	@Override
 	public ResultSet getColumnPrivileges(String catalog, String schema, String table, String columnNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getColumnPrivileges is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getTablePrivileges(String catalog, String schemaPattern, String tableNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getTablePrivileges is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getBestRowIdentifier(String catalog, String schema, String table, int scope, boolean nullable) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getBestRowIdentifier is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getVersionColumns(String catalog, String schema, String table) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getVersionColumns is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -927,27 +956,52 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 	@Override
 	public ResultSet getImportedKeys(String catalog, String schema, String table) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getImportedKeys is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getExportedKeys(String catalog, String schema, String table) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getExportedKeys is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getCrossReference(String parentCatalog, String parentSchema, String parentTable, String foreignCatalog, String foreignSchema, String foreignTable) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getCrossReference is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getTypeInfo() throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getTypeInfo is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getIndexInfo(String catalog, String schema, String table, boolean unique, boolean approximate) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getIndexInfo is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -1012,7 +1066,12 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 	@Override
 	public ResultSet getUDTs(String catalog, String schemaPattern, String typeNamePattern, int[] types) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getUDTs is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -1042,17 +1101,32 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
 
 	@Override
 	public ResultSet getSuperTypes(String catalog, String schemaPattern, String typeNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getSuperTypes is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getSuperTables(String catalog, String schemaPattern, String tableNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getSuperTypes is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
 	public ResultSet getAttributes(String catalog, String schemaPattern, String typeNamePattern, String attributeNamePattern) throws SQLException {
-		throw new SQLFeatureNotSupportedException("FlinkDatabaseMetaData#getAttributes is not supported");
+		com.ververica.flink.table.gateway.rest.result.ResultSet resultSet = com.ververica.flink.table.gateway.rest.result.ResultSet.builder()
+				.resultKind(ResultKind.SUCCESS)
+				.columns(Collections.emptyList())
+				.data(Collections.emptyList())
+				.build();
+		return FlinkResultSet.of(resultSet);
 	}
 
 	@Override
@@ -1278,16 +1352,18 @@ public class FlinkDatabaseMetaData implements DatabaseMetaData {
             if (!isNull) {
                 type = type + " NOT NULL";
             }
-            DataType dataType = LogicalTypeDataTypeConverter.toDataType(LogicalTypeParser.parse(type));
+			DataType dataType = LogicalTypeDataTypeConverter.toDataType(LogicalTypeParser.parse(type));
             String key = result.getString("key");
-            if (StringUtils.isNotEmpty(key)) {
+            if (null != key && key.length() > 0) {
                 primaryKey.add(name);
             }
             builder.field(name, dataType);
         } while (result.next());
-        builder.primaryKey(primaryKey.toArray(new String[0]));
+        if (!primaryKey.isEmpty()) {
+            builder.primaryKey(primaryKey.toArray(new String[0]));
+        }
         return builder.build();
-	}
+    }
 
 	private void appendColumnsInTable(
 			String catalog,
